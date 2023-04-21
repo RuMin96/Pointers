@@ -20,7 +20,7 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 	   division = arr[i] / 2;
-	   if()
+	   if(
 		cout << division <<"\t";
 	}
 }
