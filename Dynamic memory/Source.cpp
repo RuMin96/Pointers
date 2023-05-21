@@ -2,7 +2,7 @@
 using namespace std;
 
 void FillRand  (int arr[], const int n);
-void Print     (int arr[],       int n);
+void Print     (int arr[],int n);
 int* Push_back(int arr[], int& n, int value);
 int* Push_front(int arr[],int& n,int value);
 int* insert(int arr[],int& n,int value,int index);
@@ -43,8 +43,6 @@ void main()
 	arr = erase(arr, n, index);
 	Print(arr, n);
 
-
-
 	delete[] arr;
 }
 void FillRand(int arr[], const int n)
@@ -52,6 +50,16 @@ void FillRand(int arr[], const int n)
 	for (int i = 0; i < n; i++)
 	{
 		*(arr + i) = rand() % 100;
+	}
+}
+void FillRand(int** arr, const int ROWS,const int COLS)
+{
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			arr[i][j] = rand() % 100;
+		}
 	}
 }
 void Print(int arr[], const int n)
