@@ -1,17 +1,17 @@
 #include<iostream>
 using namespace std;
 
-void FillRand(int** arr, const int ROWS, const int COLS);
-int** Allocate(const int ROWS, const int COLS);
-void Print(int** arr, const int ROWS, const int COLS);
-void Clear(int** arr, const int ROWS);
-int** Double_arrays(int** arr, const int ROWS, const int COLS);
-int** Push_row_back(int** &arr_dual,int &ROWS, const int COLS);
-int** Push_row_front(int** & arr_dual, int& ROWS, const int COLS);
-void Insert_row(int**& arr_dual, int& ROWS, const int COLS,int const index);
-int** Pop_row_back(int**& arr_dual, int& ROWS, const int COLS);
-void Pop_row_front(int**& arr_dual, int& ROWS, const int COLS);
-int** Push_col_back(int**& arr_dual, const int ROWS,int& COLS);
+int**  Allocate                        (               const  int  ROWS  , const int COLS);
+template<typename T>void FillRand      (T**  arr,      const  int  ROWS  , const int COLS);
+template<typename T>void Print         (T**  arr,      const  int  ROWS  , const int COLS);
+template<typename T>void Clear         (T**  arr,      const  int  ROWS) ;
+template<typename T>T**  Double_arrays (T**  arr,      const  int  ROWS  , const int COLS);
+template<typename T>T**  Push_row_back (T** &arr_dual,        int& ROWS  , const int COLS);
+template<typename T>T**  Push_row_front(T** &arr_dual,        int& ROWS  , const int COLS);
+template<typename T>void Insert_row    (T** &arr_dual,        int& ROWS  , const int COLS,int const index);
+template<typename T>T**  Pop_row_back  (T** &arr_dual,        int& ROWS  , const int COLS);
+template<typename T>void Pop_row_front (T** &arr_dual,        int& ROWS  , const int COLS);
+template<typename T>T**  Push_col_back (T** &arr_dual, const  int  ROWS  ,       int&COLS);
 
 
 
@@ -23,7 +23,7 @@ void main()
 	cout << "Введите количество строк"; cin >> ROWS;
 	cout << "Введите количество элементов"; cin >> COLS;
 	int** arr_dual = Allocate(ROWS, COLS);
-	FillRand(arr_dual, ROWS, COLS);
+    FillRand(arr_dual, ROWS, COLS);
 	Print(arr_dual, ROWS, COLS);
 	cout << endl;
 
@@ -58,7 +58,7 @@ void main()
 
 
 }
-void FillRand(int** arr, const int ROWS, const int COLS)
+template<typename T>void FillRand(T** arr, const int ROWS, const int COLS)
 {
 	for (int i = 0; i < ROWS; i++)
 	{
@@ -77,7 +77,7 @@ int** Allocate(const int ROWS, const int COLS)
 	}
 	return arr;
 }
-void Print(int** arr, const int rows, const int cols)
+template<typename T>void Print(T** arr, const int rows, const int cols)
 {
 	for (int i = 0; i < rows; i++)
 	{
@@ -88,7 +88,7 @@ void Print(int** arr, const int rows, const int cols)
 		cout << endl;
 	}
 }
-void Clear(int** arr, const int ROWS)
+template<typename T>void Clear(T** arr, const int ROWS)
 {
 	for (int i = 0; i < ROWS; i++)
 	{
@@ -96,19 +96,17 @@ void Clear(int** arr, const int ROWS)
 	}
 	delete[] arr;
 }
-int** Push_row_back(int** &arr, int &ROWS, const int COLS)
+template<typename T>T** Push_row_back(T** &arr, int &ROWS, const int COLS)
 {
-	int** buffer = Allocate(++ROWS,COLS);
+	T** buffer = Allocate(++ROWS,COLS);
 	for (int i = 0; i < ROWS-1; i++) buffer[i] = arr[i];
 	delete[] arr;
 	arr = buffer;
 	arr[ROWS-1] = new int[COLS] {};
 	return arr;
 }
-int** Double_arrays(int** arr_dual, const int ROWS, const int COLS)
+template<typename T>T** Double_arrays(T** arr_dual, const int ROWS, const int COLS)
 {
-	
-
 	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
@@ -119,18 +117,18 @@ int** Double_arrays(int** arr_dual, const int ROWS, const int COLS)
 	}
 	return arr_dual;
 }
-int** Push_row_front(int**& arr, int& ROWS, const int COLS)
+template<typename T>T** Push_row_front(T**& arr, int& ROWS, const int COLS)
 {
-	int** buffer = Allocate(++ROWS, COLS);
+	T** buffer = Allocate(++ROWS, COLS);
 	for (int i = 0; i < ROWS - 1; i++) buffer[i+1] = arr[i];
 	delete[] arr;
 	arr = buffer;
 	arr[0] = new int [COLS] {};
 	return arr;
 }
-void Insert_row(int**& arr, int& ROWS, const int COLS, int const index)
+template<typename T> void Insert_row(T**& arr, int& ROWS, const int COLS, int const index)
 {
-	int** buffer = Allocate(++ROWS, COLS);
+	T** buffer = Allocate(++ROWS, COLS);
 	for (int i = 0; i < index; i++)
 	{
 		buffer[i] = arr[i];
@@ -143,25 +141,25 @@ void Insert_row(int**& arr, int& ROWS, const int COLS, int const index)
 	arr = buffer;
 	arr[index] = new int[COLS] {};
 }
-int** Pop_row_back(int**& arr, int& ROWS, const int COLS)
+template<typename T>T ** Pop_row_back(T**& arr, int& ROWS, const int COLS)
 {
-	int** buffer = Allocate(--ROWS, COLS);
+	T** buffer = Allocate(--ROWS, COLS);
 	for (int i = 0; i < ROWS; i++) buffer[i] = arr[i];
 	delete[] arr;
 	arr = buffer;
 	arr[ROWS] = new int[COLS] {};
 	return arr;
 }
-void Pop_row_front(int** & arr, int& ROWS, const int COLS)
+template<typename T>void Pop_row_front(T** & arr, int& ROWS, const int COLS)
 {
-	int** buffer = Allocate(--ROWS, COLS);
+	T** buffer = Allocate(--ROWS, COLS);
 	for (int i = 0; i < ROWS; i++) buffer[i] = arr[i+1];
 	delete[] arr;
 	arr = buffer;
 }
-int** Push_col_back(int**& arr, const int ROWS, int& COLS)
+template<typename T>T** Push_col_back(T**& arr, const int ROWS, int& COLS)
 {
-	int** buffer = Allocate(ROWS, ++COLS);
+	T** buffer = Allocate(ROWS, ++COLS);
 	for (int i = 0; i < COLS - 1; i++) buffer[i] = arr[i];
 	delete[] arr;
 	arr = buffer;
