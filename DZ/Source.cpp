@@ -10,7 +10,7 @@ template<typename T>T**  Push_row_back (T** &arr_dual,        int& ROWS  , const
 template<typename T>T**  Push_row_front(T** &arr_dual,        int& ROWS  , const int COLS);
 template<typename T>void Insert_row    (T** &arr_dual,        int& ROWS  , const int COLS,int const index);
 template<typename T>T**  Pop_row_back  (T** &arr_dual,        int& ROWS  , const int COLS);
-template<typename T>void Pop_row_front (T** &arr_dual,        int& ROWS  , const int COLS);
+template<typename T>T** Pop_row_front (T** &arr_dual,        int& ROWS  , const int COLS);
 template<typename T>T**  Push_col_back (T** &arr_dual, const  int  ROWS  ,       int&COLS);
 
 
@@ -19,44 +19,42 @@ template<typename T>T**  Push_col_back (T** &arr_dual, const  int  ROWS  ,      
 void main()
 {
 	setlocale(LC_ALL, "");
-	int ROWS, COLS,index;
-	cout << "Введите количество строк"; cin >> ROWS;
-	cout << "Введите количество элементов"; cin >> COLS;
-	int** arr_dual = Allocate(ROWS, COLS);
-    FillRand(arr_dual, ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
+	int rows, cols,index;
+	cout << "Введите количество строк"; cin >> rows;
+	cout << "Введите количество элементов"; cin >> cols;
+	int** arr_dual = Allocate(rows, cols);
+    FillRand(arr_dual, rows, cols);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
-
-	Push_row_back(arr_dual, ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
+	Push_row_back(arr_dual, rows, cols);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
-	Push_row_front(arr_dual,ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
+	Push_row_front(arr_dual,rows, cols);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
 	cout << "Введите индекс"; cin >> index;
-	Insert_row(arr_dual,ROWS, COLS,index);
-	Print(arr_dual, ROWS, COLS);
+	Insert_row(arr_dual,rows, cols,index);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
-	Pop_row_back(arr_dual,ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
+	Pop_row_back(arr_dual,rows, cols);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
-	Pop_row_front(arr_dual, ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
+	Pop_row_front(arr_dual, rows, cols);
+	Print(arr_dual, rows, cols);
 	cout << endl;
 
-	Push_col_back(arr_dual, ROWS, COLS);
-	Print(arr_dual, ROWS, COLS);
-	cout << endl;
+	//Push_col_back(arr_dual, rows, cols);
+	//Print(arr_dual, rows, cols);
+	//cout << endl;
 
 
 
-
-
+	Clear(arr_dual, rows);
 }
 template<typename T>void FillRand(T** arr, const int ROWS, const int COLS)
 {
@@ -133,7 +131,7 @@ template<typename T> void Insert_row(T**& arr, int& ROWS, const int COLS, int co
 	{
 		buffer[i] = arr[i];
 	}
-	for (int i = index; i < ROWS; i++)
+	for (int i = index; i < ROWS-1; i++)
 	{
 		buffer[i + 1] = arr[i];
 	}
@@ -147,15 +145,16 @@ template<typename T>T ** Pop_row_back(T**& arr, int& ROWS, const int COLS)
 	for (int i = 0; i < ROWS; i++) buffer[i] = arr[i];
 	delete[] arr;
 	arr = buffer;
-	arr[ROWS] = new int[COLS] {};
 	return arr;
 }
-template<typename T>void Pop_row_front(T** & arr, int& ROWS, const int COLS)
+template<typename T>T** Pop_row_front(T** & arr, int& ROWS, const int COLS)
 {
+
 	T** buffer = Allocate(--ROWS, COLS);
 	for (int i = 0; i < ROWS; i++) buffer[i] = arr[i+1];
 	delete[] arr;
 	arr = buffer;
+	return arr;
 }
 template<typename T>T** Push_col_back(T**& arr, const int ROWS, int& COLS)
 {
